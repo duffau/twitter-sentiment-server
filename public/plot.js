@@ -1,31 +1,14 @@
-function makeplot() {
-  Plotly.d3.csv("./data/sentiment.csv", function(data){ processData(data) } );
+var time = new Date();
+var sentiment;
+var filteredSentiment;
 
-};
+var data = [{
+  x: [time], 
+  y: [sentiment],
+  mode: 'lines',
+  line: {color: '#80CAF6'}
+}]
 
-function processData(allRows) {
+Plotly.plot('sentiment-graph', data);  
 
-  console.log(allRows);
-  var x = [], y = [];
-
-  for (var i=0; i<allRows.length; i++) {
-    row = allRows[i];
-    x.push( row['timestamp'] );
-    y.push( row['sentiment'] );
-  }
-  console.log( 'X',x, 'Y',y );
-  makePlotly( x, y );
-}
-
-function makePlotly( x, y, standard_deviation ){
-  var plotDiv = document.getElementById("plot");
-  var traces = [{
-    x: x,
-    y: y
-  }];
-
-  Plotly.newPlot('sentiment-plot', traces,
-    {title: '#bitcoin tweets sentiment'});
-};
-
-makeplot();
+  

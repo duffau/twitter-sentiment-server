@@ -21,18 +21,6 @@ type Message struct {
 }
 
 
-type AppData struct {
-	ch <-chan Tweet
-	ft *fasttext.FastText
-	vgood []float64
-	vbad []float64
-}
-
-/*func indexHandler(w http.ResponseWriter, r *http.Request) {
-	html, _ := ioutil.ReadFile("./public/index.html")
-	w.Write(html)
-}
-*/
 
 func logError(err error) {
 	if err != nil {
@@ -41,30 +29,33 @@ func logError(err error) {
 }
 
 
-func (ad *AppData) websocketHandler(w http.ResponseWriter, r *http.Request) {
-	
+
+
+func makeWebsocketHandler(ch <-chan Tweet, ft *fasttext.FastText,vGood []float64, vBad []float64) http.HandlerFunc {
+
 	var msg Message
 	var sentiment float64
 	var tweetVec  []float64
-	var tweet Tweet
 
-	conn, err := upgrader.Upgrade(w, r, nil)	
-	logError(err)
+	return func (w http.ResponseWriter, r *http.Request) {
+		
+		conn, err := upgrader.Upgrade(w, r, nil)	
+		logError(err)
 
-	for {
-		tweet = <-ad.ch
-		log.Println(tweet)
-		tweetVec = wordvec.SentenceVec(ad.ft, tweet.Text)
-		sentiment = wordvec.Sentiment(ad.vgood, ad.vbad, tweetVec, wordvec.CosineSimilarity)
-		msg = Message{time.Now().Unix(), sentiment, tweet.Text}
-		err = conn.WriteJSON(msg)
-		if err != nil {
-			logError(err)
-			return
+		for tweet := range ch {
+			//log.Println(tweet)
+			tweetVec = wordvec.SentenceVec(ft, tweet.Text)
+			sentiment = wordvec.Sentiment(vGood, vBad, tweetVec, wordvec.CosineSimilarity)
+			msg = Message{time.Now().Unix(), sentiment, tweet.Text}
+			err = conn.WriteJSON(msg)
+			if err != nil {
+				logError(err)
+				return
+			}
 		}
 	}
-}
 
+}
 
 func main() {
 
@@ -73,9 +64,7 @@ func main() {
 	vecNormalizedGood, _ := wordvec.Normalize(wordvec.WordVec(ft, "good"))
 	vecNormalizedBad, _ := wordvec.Normalize(wordvec.WordVec(ft, "bad"))
 
-	ad := AppData{twitterChannel, ft, vecNormalizedGood, vecNormalizedBad}
-
 	http.Handle("/", http.FileServer(http.Dir("public/")))
-	http.HandleFunc("/websocket", ad.websocketHandler)
+	http.HandleFunc("/websocket", makeWebsocketHandler(twitterChannel, ft, vecNormalizedGood, vecNormalizedBad))
 	http.ListenAndServe(":8080", nil)
 }

@@ -42,7 +42,7 @@ func sendMagicEightBallTweetsToChannel(limit int, ch chan Tweet) {
 	var randomDuration time.Duration
 	for i := 0; i < limit; i++ {
 		ch <- MagicEightBallTweet()
-		randomDuration = time.Duration(rand.Intn(1000)) * time.Millisecond 
+		randomDuration = time.Duration(500 + rand.Intn(1000)) * time.Millisecond 
 		//fmt.Printf("randomDuration = %v\n", randomDuration)
 		time.Sleep(randomDuration)
 	}
@@ -51,7 +51,7 @@ func sendMagicEightBallTweetsToChannel(limit int, ch chan Tweet) {
 
 func mockTwitterChannel() <-chan Tweet {
 	ch := make(chan Tweet)
-	go sendMagicEightBallTweetsToChannel(20, ch)
+	go sendMagicEightBallTweetsToChannel(2000, ch)
 	return ch	
 }
 
