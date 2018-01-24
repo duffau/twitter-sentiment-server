@@ -1,2 +1,5 @@
 SecretSettings.yml
-
+*.vec
+*.csv
+*.db
+*.txt
