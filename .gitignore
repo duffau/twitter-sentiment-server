@@ -1,4 +1,5 @@
 SecretSettings.yml
+secret.go
 *.vec
 *.csv
 *.db
