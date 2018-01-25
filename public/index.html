@@ -10,17 +10,20 @@
 	<title>Crypto sentiment</title>	
 </head>
 <body>
-	<head>
-		<img src="northbridge_logo.png">
-	</head>
+	<header class="header">
+		<img src="northbridge_logo.png" style="max-width: 30%;">
+	</header>
+
 	<div class="controlbar">
 		<button class="button" onclick="javascript:websocketStart()">Start Twitter Feed</button>
 	</div>
-	<div class="column">
-		<div id="sentiment-graph" style="width:600px;height:400px;"></div>
+	<div class="background">
+	<div class="column_1">
+		<div id="sentiment-graph" style="height: 400px; width: 100%;""></div>
 	</div>
-	<div class="column">
-		<textarea id="textarea1" style="width:600px;height:400px;" readonly></textarea>
+	<div class="column_2">
+		<textarea id="textarea1" style="height: 400px; width: 100%;"  readonly></textarea>
+	</div>
 	</div>
 	<script src="plot.js"></script>
 

@@ -1,40 +1,55 @@
 * {
     box-sizing: border-box;
     font-size: 1em !important;
-   color: #000 !important;
-   font-family: Helvetica !important;
+    font-family: Helvetica !important;
 }
 
  
 
 body {
-    margin: 0;
+    margin: 0px;
 }
 
-/* Style the header */
+.background {
+    background-color: #c6ccd2;
+    margin-left: 5%;
+    margin-right: 5%;
+
+}
+
 .header {
-    background-color: #f1f1f1;
-    padding: 50px;
+    background-color: #c6ccd2;
+    padding: 10px;
     text-align: center;
+
 }
 
 .controlbar {
     text-align: center;
+    padding: 10px;
 }
 
 img {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 40%;
 }
 
-/* Create three equal columns that floats next to each other */
-.column {
+
+.column_1 {
     float: left;
     width: 50.0%;
     padding: 10px;
-    text-align: center;
+    text-align: right;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.column_2 {
+    float: left;
+    width: 50.0%;
+    padding: 10px;
+    text-align: left;
     margin-left: auto;
     margin-right: auto;
 }
@@ -58,16 +73,20 @@ img {
     background-color: #85929e;
     border: none;
     color: white;
-    padding: 15px 32px;
+    padding: 10px 20px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-size: 12px;
 }
 
 /* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
 @media (max-width: 600px) {
-    .column {
+    .column_1 {
         width: 100%;
     }
+    .column_2 {
+        width: 100%;
+    }
+
 }
