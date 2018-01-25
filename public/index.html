@@ -3,19 +3,25 @@
 
 <head lang='eng'>
 	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="style.css">
 	<script src="plotly-latest.min.js"></script>
 	<script src="script.js"></script>
 	<title>Crypto sentiment</title>	
 </head>
 <body>
-	<h3>Cryto Sentiment</h3>
-	<button onclick="javascript:websocketStart()">Start websocket!</button>
-	<br>
-	<br>
-	<textarea id="textarea1" rows="30" cols="90"></textarea>
-	<br>
-	<br>	
-	<div id="sentiment-graph" style="width:600px;height:400px;"></div>
+	<head>
+		<img src="northbridge_logo.png">
+	</head>
+	<div class="controlbar">
+		<button class="button" onclick="javascript:websocketStart()">Start Twitter Feed</button>
+	</div>
+	<div class="column">
+		<div id="sentiment-graph" style="width:600px;height:400px;"></div>
+	</div>
+	<div class="column">
+		<textarea id="textarea1" style="width:600px;height:400px;" readonly></textarea>
+	</div>
 	<script src="plot.js"></script>
 
 </body>

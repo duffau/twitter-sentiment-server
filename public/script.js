@@ -2,6 +2,7 @@
 function websocketStart()
 {
 	var ws = new WebSocket("ws://localhost:8080/websocket");
+	var tweets = new Array();
 
 	ws.onopen = function()
 	{
@@ -12,17 +13,21 @@ function websocketStart()
 
 	ws.onmessage = function(evt)
 	{
-   		var textArea = document.getElementById("textarea1");
-    	textArea.value = textArea.value + "\n" + evt.data
       	var msg = JSON.parse(evt.data);
-      	console.log(msg)
+    	tweets.push(msg["Text"] + "\n------- New Tweet -------\n")
+ 
+	   	if (tweets.length > 5) {
+    		tweets.shift()
+    	}
+
+   		var textArea = document.getElementById("textarea1");
+    	textArea.value = tweets.join("\n") 
       	textArea.scrollTop = textArea.scrollHeight;
    		
    		var time = new Date(msg["Timestamp"]*1000);
-
 		var update = {
-			x:  [[time]],
-			y: [[msg["Sentiment"]]]
+			x:  [[time], [time]],
+			y: [[msg.Sentiment], [msg.SentimentFilter]]
 		}
   
 		var olderTime = time.setMinutes(time.getMinutes() - 1);
@@ -36,7 +41,7 @@ function websocketStart()
 	    };
   
 	  Plotly.relayout('sentiment-graph', minuteView);
-	  Plotly.extendTraces('sentiment-graph', update, [0])
+	  Plotly.extendTraces('sentiment-graph', update, [0, 1])
 
    };
 
