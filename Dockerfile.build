@@ -1,0 +1,8 @@
+FROM golang:1.4.2
+
+RUN go get github.com/joeshaw/qotd
+COPY / Dockerfile.run
+
+# This command outputs a tarball which can be piped into
+# `docker build -f Dockerfile.run -`
+CMD tar -cf - -C / Dockerfile.run -C $GOPATH/bin sentimentserver

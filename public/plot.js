@@ -2,6 +2,7 @@ var time = new Date();
 var sentiment;
 var filteredSentiment;
 
+
 var data = [{
   x: [time], 
   y: [sentiment],
@@ -23,6 +24,8 @@ var layout = {
   //legend: {"orientation": "h", "x":100, "y":1},
   showlegend: false
  }
+
+
 
 Plotly.plot('sentiment-graph', data, layout);  
 

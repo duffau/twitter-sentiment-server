@@ -62,12 +62,7 @@ img {
     clear: both;
 }
 
-/* Style the footer */
-.footer {
-    background-color: #f1f1f1;
-    padding: 10px;
-    text-align: center;
-}
+
 
 .button {
     background-color: #85929e;
@@ -78,6 +73,10 @@ img {
     text-decoration: none;
     display: inline-block;
     font-size: 12px;
+}
+
+.button:hover {
+    background-color: #c6ccd2;
 }
 
 /* Responsive layout - makes the three columns stack on top of each other instead of next to each other */

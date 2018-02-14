@@ -1,7 +1,11 @@
+var ws
+var plotpoints = 0;
+var maxplotpoints = 5000;
+
 
 function websocketStart()
 {
-	var ws = new WebSocket("ws://localhost:8080/websocket");
+	ws = new WebSocket("ws://localhost:8080/websocket");
 	var tweets = new Array();
 
 	ws.onopen = function()
@@ -14,14 +18,14 @@ function websocketStart()
 	ws.onmessage = function(evt)
 	{
       	var msg = JSON.parse(evt.data);
-    	tweets.push(msg["Text"] + "\n------- New Tweet -------\n")
+    	tweets.push(msg["Text"] + "\n Sentiment = " + msg["Sentiment"].toFixed(2))
  
-	   	if (tweets.length > 5) {
+	   	if (tweets.length > 10) {
     		tweets.shift()
     	}
 
    		var textArea = document.getElementById("textarea1");
-    	textArea.value = tweets.join("\n") 
+    	textArea.value = tweets.join("\n\n------- New Tweet -------\n\n") 
       	textArea.scrollTop = textArea.scrollHeight;
    		
    		var time = new Date(msg["Timestamp"]*1000);
@@ -29,9 +33,10 @@ function websocketStart()
 			x:  [[time], [time]],
 			y: [[msg.Sentiment], [msg.SentimentFilter]]
 		}
-  
-		var olderTime = time.setMinutes(time.getMinutes() - 1);
-		var futureTime = time.setMinutes(time.getMinutes() + 1);
+  		plotpoints += 1
+
+		var olderTime = time.setMinutes(time.getMinutes() - 3);
+		var futureTime = time.setMinutes(time.getMinutes() + 3);
   
 		var minuteView = {
 	      xaxis: {
@@ -39,9 +44,16 @@ function websocketStart()
 	        range: [olderTime,futureTime]
 	      }
 	    };
-  
-	  Plotly.relayout('sentiment-graph', minuteView);
-	  Plotly.extendTraces('sentiment-graph', update, [0, 1])
+		
+		if(plotpoints > maxplotpoints){
+		    data[0].x.shift();
+		    data[0].y.shift();
+		    data[1].x.shift();
+		    data[1].y.shift();
+		} 
+		
+		Plotly.relayout('sentiment-graph', minuteView);
+		Plotly.extendTraces('sentiment-graph', update, [0, 1])
 
    };
 
@@ -54,3 +66,7 @@ function websocketStart()
 }
 
 
+function websocketStop()
+{
+	ws.close()
+}
