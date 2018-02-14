@@ -7,8 +7,8 @@ import (
 )
 
 func main() {
-	ft := fasttext.NewFastText("../database/fasttext.db")
-	vec_file, _ := os.Open("../wiki.en.vec")
+	ft := fasttext.NewFastText("glove25.db")
+	vec_file, _ := os.Open("../data/glove.twitter.27B.25d.txt")
 	ft.BuildDB(vec_file)	
 	ft.Close()
 }

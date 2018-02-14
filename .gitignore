@@ -4,3 +4,5 @@ secret.go
 *.csv
 *.db
 *.txt
+*.zip
+.idea/
