@@ -6,3 +6,6 @@ secret.go
 *.txt
 *.zip
 .idea/
+
+# Executable
+sentimentserver
